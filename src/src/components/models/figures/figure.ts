@@ -15,10 +15,15 @@ export enum FIguresNames {
 
 export class Figure {
   color: Colors;
+
   logo: typeof logo | null;
+
   cell: Cell;
+
   name: FIguresNames;
+
   id: number;
+
   constructor(color: Colors, cell: Cell) {
     this.color = color;
     this.cell = cell;
@@ -40,7 +45,6 @@ export class Figure {
     return true;
   }
 
-  MoveFigure(target: Cell) {
-    console.log(target);
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  MoveFigure(_target: Cell) {}
 }

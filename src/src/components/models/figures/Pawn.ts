@@ -4,6 +4,7 @@ import { Colors } from '../Colors';
 
 import blacklogo from '../../../assets/black-pawn.png';
 import whitelogo from '../../../assets/white-pawn.png';
+import { Queen } from './Queen';
 
 export class Pawn extends Figure {
   isFirstStep = true;
@@ -19,8 +20,9 @@ export class Pawn extends Figure {
       return false;
     }
 
-    const direction = this.cell?.color === Colors.BLACK ? 1 : -1;
-    const firstStepDirection = this.cell?.color === Colors.BLACK ? 2 : -2;
+    const direction = this.cell.figure?.color === Colors.BLACK ? 1 : -1;
+    const firstStepDirection =
+      this.cell.figure?.color === Colors.BLACK ? 2 : -2;
 
     if (
       (target.y === this.cell.y + direction ||
@@ -43,7 +45,13 @@ export class Pawn extends Figure {
   }
 
   MoveFigure(target: Cell): void {
-    super.MoveFigure(target);
     this.isFirstStep = false;
+
+    if (
+      (this.color === Colors.WHITE && this.cell.y === 1) ||
+      (this.color === Colors.BLACK && this.cell.y === 6)
+    ) {
+      this.cell.setfigure(new Queen(this.color, target));
+    }
   }
 }

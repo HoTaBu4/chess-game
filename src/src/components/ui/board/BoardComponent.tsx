@@ -3,13 +3,21 @@ import { Board } from '../../models/board';
 import { Cell } from '../../models/cell';
 import CellComponent from './cellsComponent';
 import { useState } from 'react';
+import { Player } from '../../models/Player';
 
 interface BoardProps {
   board: Board;
   setBoard: (board: Board) => void;
+  currentPlayer: Player | null;
+  swapPlayer: () => void;
 }
 
-const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
+const BoardComponent: FC<BoardProps> = ({
+  board,
+  setBoard,
+  swapPlayer,
+  currentPlayer,
+}) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
 
   function updateBoard() {
@@ -19,7 +27,7 @@ const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
   }
 
   function hightLightCells() {
-    board.hightLightCells(selectedCell);
+    board.highlightCells(selectedCell);
     updateBoard();
   }
 
@@ -29,10 +37,13 @@ const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
       selectedCell !== cell &&
       selectedCell.figure?.canMove(cell)
     ) {
-      selectedCell.moveFugures(cell);
+      selectedCell.movefigures(cell);
+      swapPlayer();
       setSelectedCell(null);
     } else {
-      setSelectedCell(cell);
+      if (cell.figure?.color === currentPlayer?.color) {
+        setSelectedCell(cell);
+      }
     }
   }
 

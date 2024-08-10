@@ -4,11 +4,17 @@ import { Figure } from './figures/figure';
 
 export class Cell {
   readonly x: number;
+
   readonly y: number;
+
   readonly color: Colors;
+
   figure: Figure | null;
+
   board: Board;
+
   available: boolean; // if it can moves
+
   id: number; //for react keys
 
   constructor(
@@ -35,6 +41,7 @@ export class Cell {
     if (target.figure) {
       return this.figure?.color !== target.figure.color;
     }
+
     return false;
   }
 
@@ -42,6 +49,7 @@ export class Cell {
     if (this.x !== target.x) {
       return false;
     }
+
     const min = Math.min(this.y, target.y);
     const max = Math.max(this.y, target.y);
 
@@ -50,6 +58,7 @@ export class Cell {
         return false;
       }
     }
+
     return true;
   }
 
@@ -57,20 +66,23 @@ export class Cell {
     if (this.y !== target.y) {
       return false;
     }
-    const min = Math.min(this.y, target.y);
-    const max = Math.max(this.y, target.y);
+
+    const min = Math.min(this.x, target.x);
+    const max = Math.max(this.x, target.x);
 
     for (let x = min + 1; x < max; x++) {
       if (!this.board.getCell(x, this.y).isEmpty()) {
         return false;
       }
     }
+
     return true;
   }
 
   isEmptyDiagonal(target: Cell): boolean {
     const absX = Math.abs(target.x - this.x);
     const absY = Math.abs(target.y - this.y);
+
     if (absX !== absY) {
       return false;
     }
@@ -83,6 +95,7 @@ export class Cell {
         return false;
       }
     }
+
     return true;
   }
 
@@ -91,9 +104,21 @@ export class Cell {
     this.figure.cell = this;
   }
 
-  moveFugures(target: Cell) {
+  addLostFigure(target: Figure) {
+    if (target.color === Colors.WHITE) {
+      this.board.lostWhiteFigures.push(target);
+    } else {
+      this.board.lostBlackFigures.push(target);
+    }
+  }
+
+  movefigures(target: Cell) {
     if (this.figure && this.figure?.canMove(target)) {
       this.figure.MoveFigure(target);
+      if (target.figure) {
+        this.addLostFigure(target.figure);
+      }
+
       target.setfigure(this.figure);
       this.figure = null;
     }

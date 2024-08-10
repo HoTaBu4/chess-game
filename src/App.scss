@@ -11,7 +11,8 @@ html,body,#root,.App{
   height: 100%;
 }
 
-.app{
+.App{
+  background: linear-gradient(-45deg,rgba(0, 12, 186, 1) 0%,rgba(12, 8, 19, 1) 53%,rgba(0, 12, 186, 1) 100%);
   width: 100vw;
   height: 100%;
   display: flex;
@@ -24,6 +25,15 @@ html,body,#root,.App{
   height:calc(64px * 8);
   display: flex;
   flex-wrap: wrap;
+  border-radius: 10px;
+  overflow: hidden;
+
+  &__wrapper {
+    padding: 14px;
+    border-radius: 14px;
+    background-color: #373855;
+  }
+  
 }
 
 .cell{
@@ -41,11 +51,11 @@ html,body,#root,.App{
 }
 
 .black{
-  background-color:deepskyblue;
+  background: #6C6C6C;
 }
 
 .white{
-  background-color: rgb(245, 219, 142);
+  background-color: #fff;
 }
 
 .selected{
@@ -61,4 +71,11 @@ html,body,#root,.App{
 
 .green{
   background-color: #22c022;
+}
+
+.lost {
+  &__img {
+    height: 20px;
+    width: 20px;
+  }
 }

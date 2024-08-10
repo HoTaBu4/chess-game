@@ -19,7 +19,7 @@ const CellComponent: FC<CellProps> = ({ cell, selected, click }) => {
       onClick={() => click(cell)}
     >
       {cell.available && !cell.figure && <div className="available" />}
-      <>{cell.figure?.logo && <img src={cell.figure.logo} />}</>
+      {cell.figure?.logo && <img src={cell.figure.logo} alt="logo" />}
     </div>
   );
 };
