@@ -205,7 +205,7 @@ body,
 .lost__item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   font-size: 0.9rem;
   color: rgba(230, 234, 255, 0.85);
 }
@@ -214,6 +214,16 @@ body,
   height: 24px;
   width: 24px;
   object-fit: contain;
+}
+
+.lost__label {
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.lost__empty {
+  font-size: 0.85rem;
+  color: rgba(200, 208, 240, 0.6);
 }
 
 @media (max-width: 960px) {
