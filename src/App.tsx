@@ -14,6 +14,8 @@ function App() {
   const [whitePlayer] = useState(new Player(Colors.WHITE));
   const [blackPlayer] = useState(new Player(Colors.BLACK));
   const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
+  const [winner, setWinner] = useState<Colors | null>(null);
+  const [gameOver, setGameOver] = useState(false);
 
   const restart = useCallback(() => {
     const newBoard = new Board();
@@ -22,6 +24,8 @@ function App() {
     newBoard.addFigures();
     setBoard(newBoard);
     setCurrentPlayer(whitePlayer);
+    setWinner(null);
+    setGameOver(false);
   }, [whitePlayer]);
 
   useEffect(() => {
@@ -29,21 +33,46 @@ function App() {
   }, [restart]);
 
   const swapPlayer = () => {
-    setCurrentPlayer(
-      currentPlayer?.color === Colors.WHITE ? blackPlayer : whitePlayer,
+    if (gameOver) {
+      return;
+    }
+
+    setCurrentPlayer(prev =>
+      prev?.color === Colors.WHITE ? blackPlayer : whitePlayer,
     );
   };
 
-  const currentTurnLabel =
-    currentPlayer?.color === Colors.WHITE ? 'White' : 'Black';
+  const handleGameOver = (winnerColor: Colors) => {
+    setWinner(winnerColor);
+    setGameOver(true);
+    setCurrentPlayer(null);
+  };
+
+  const statusText = (() => {
+    if (winner) {
+      return `${winner === Colors.WHITE ? 'White' : 'Black'} wins by checkmate`;
+    }
+
+    if (currentPlayer) {
+      const colorLabel =
+        currentPlayer.color === Colors.WHITE ? 'White' : 'Black';
+      const inCheck = board.isKingUnderAttack(currentPlayer.color);
+
+      if (inCheck) {
+        return `${colorLabel} is in check`;
+      }
+
+      return `Current move: ${colorLabel}`;
+    }
+
+    return 'Preparing game...';
+  })();
 
   return (
     <div className="App">
       <div className="app__layout">
         <div className="app__panel">
-          <div className="app__header">
-            {currentPlayer ? `Current move: ${currentTurnLabel}` : 'Loading...'}
-          </div>
+          <div className="app__header">{statusText}</div>
           <div className="board-frame">
             <div className="board-frame__row board-frame__row--top">
               {LETTERS.map(letter => (
@@ -62,6 +91,8 @@ function App() {
                   setBoard={setBoard}
                   swapPlayer={swapPlayer}
                   currentPlayer={currentPlayer}
+                  onGameOver={handleGameOver}
+                  gameOver={gameOver}
                 />
               </div>
               <div className="board-frame__col board-frame__col--right">

@@ -112,8 +112,12 @@ export class Cell {
     }
   }
 
-  movefigures(target: Cell) {
-    if (this.figure && this.figure?.canMove(target)) {
+  movefigures(target: Cell): boolean {
+    if (
+      this.figure &&
+      this.figure.canMove(target) &&
+      !this.board.leavesKingInCheck(this, target)
+    ) {
       this.figure.MoveFigure(target);
       if (target.figure) {
         this.addLostFigure(target.figure);
@@ -121,6 +125,10 @@ export class Cell {
 
       target.setfigure(this.figure);
       this.figure = null;
+
+      return true;
     }
+
+    return false;
   }
 }
