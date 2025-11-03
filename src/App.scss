@@ -227,27 +227,134 @@ body,
 }
 
 @media (max-width: 960px) {
+  .App {
+    padding: 28px 16px;
+  }
+
   .app__layout {
     flex-direction: column;
     align-items: center;
+    gap: 28px;
   }
 
   .board-frame {
     --rail-size: 22px;
     --frame-gap: 10px;
+    --frame-padding: 20px;
+    width: auto;
+    max-width: calc(
+      var(--cell-size) * 8 + var(--rail-size) * 2 + var(--frame-gap) * 2 +
+        var(--frame-padding) * 2
+    );
+    padding: var(--frame-padding);
+    margin: 0 auto;
   }
 
   .app__panel {
     --cell-size: 54px;
+    width: 100%;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .app__header {
+    padding: 14px 20px;
+    font-size: 1rem;
+  }
+
+  .board-frame__row {
+    width: calc(var(--cell-size) * 8);
+    margin: 0 auto;
   }
 
   .board-frame__center {
     grid-template-columns: var(--rail-size) auto var(--rail-size);
     gap: var(--frame-gap);
+    max-width: calc(
+      var(--cell-size) * 8 + var(--rail-size) * 2 + var(--frame-gap) * 2
+    );
+    margin: 0 auto;
   }
 
   .cell > img {
     width: calc(var(--cell-size) * 0.72);
     height: calc(var(--cell-size) * 0.72);
+  }
+
+  .app__sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .app__panel {
+    --cell-size: 46px;
+  }
+
+  .board-frame {
+    --rail-size: 18px;
+    --frame-gap: 8px;
+    --frame-padding: 18px;
+    padding: var(--frame-padding);
+    width: auto;
+    max-width: calc(
+      var(--cell-size) * 8 + var(--rail-size) * 2 + var(--frame-gap) * 2 +
+        var(--frame-padding) * 2
+    );
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  .app__header {
+    font-size: 0.95rem;
+    padding: 12px 18px;
+  }
+
+  .board-frame__center {
+    grid-template-columns: var(--rail-size) auto var(--rail-size);
+    gap: var(--frame-gap);
+    justify-items: center;
+    max-width: calc(
+      var(--cell-size) * 8 + var(--rail-size) * 2 + var(--frame-gap) * 2
+    );
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .board-frame__row {
+    width: calc(var(--cell-size) * 8);
+    margin: 0 auto;
+  }
+
+  .board-frame__row span {
+    height: 20px;
+  }
+
+  .board-frame__col span {
+    width: var(--rail-size);
+  }
+}
+
+@media (max-width: 520px) {
+  .App {
+    padding: 20px 12px;
+  }
+
+  .app__panel {
+    --cell-size: 40px;
+  }
+
+  .board-frame {
+    --rail-size: 16px;
+    padding: 16px;
+  }
+
+  .board-frame__row span,
+  .board-frame__col span {
+    font-size: 0.75rem;
+  }
+
+  .app__header {
+    letter-spacing: 0.04em;
   }
 }
